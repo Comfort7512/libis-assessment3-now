@@ -1,12 +1,15 @@
 package org.example.libis;
 
+import com.mysql.cj.Session;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.example.libis.data.UserDAO;
 import org.example.libis.model.Member;
+import org.example.libis.model.User;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,6 +18,8 @@ import java.util.List;
 
 @WebServlet(name = "login-controller", value = "/login")
 public class LoginServlet extends HttpServlet {
+    User foundUser = null;
+    UserDAO userDAO = new UserDAO();
 
     private static int nextMemberId = 6;
 
@@ -81,24 +86,22 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = req.getSession();
         boolean valid = false;
 
-        if(email != null && password != null ){
-            for(Member member:members){
-                if(member.getEmail().equalsIgnoreCase(email) && member.getPassword().equalsIgnoreCase(password)){
-                    valid = true;
-                    session.setAttribute("username",member.getFullName());
+        foundUser = userDAO.validate(email,password);
+        System.out.println(foundUser);
 
-                    break;
-                }
 
-            }
-        }
-        if(valid){
+        if(foundUser != null){
+            session.setAttribute("username",foundUser.getName());
             req.getRequestDispatcher("/WEB-INF/Welcome.jsp")
-                    .forward(req, resp);        }
-        else{
-            PrintWriter out = resp.getWriter();
-            out.println("Enter valid credentials");
+                    .forward(req, resp);
         }
+        if(foundUser == null){
+            req.getRequestDispatcher("/WEB-INF/login.jsp")
+                    .forward(req, resp);
+//            resp.sendRedirect(req.getContextPath() + "/login.jsp");
+
+        }
+
     }
 
     public void registerUser
@@ -110,18 +113,35 @@ public class LoginServlet extends HttpServlet {
              HttpServletRequest request
              ) throws ServletException, IOException {
 
+        int user = -1;
+        HttpSession session = request.getSession();
 
-        Member member = new Member(
-                nextMemberId++,
-                firstName,
-                lastName,
-                email,
-                password
+        user = userDAO.registerUser(
+                   email,
+                   password,
+                   firstName,
+                   lastName
         );
+        if(user>0){
+            session.setAttribute("username",firstName);
+            request.getRequestDispatcher("/WEB-INF/Welcome.jsp")
+                    .forward(request, response);
+        }
 
-        members.add(member);
-        request.getRequestDispatcher("/WEB-INF/Welcome.jsp")
-                .forward(request, response);
-        System.out.println(member);
+
+
+
+//        Member member = new Member(
+//                nextMemberId++,
+//                firstName,
+//                lastName,
+//                email,
+//                password
+//        );
+//
+//        members.add(member);
+//        request.getRequestDispatcher("/WEB-INF/Welcome.jsp")
+//                .forward(request, response);
+//        System.out.println(member);
     }
 }
