@@ -1,23 +1,26 @@
-package org.example.libis;
+package org.example.libis.controller;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.libis.dao.BookDAOImpl;
 import org.example.libis.model.Book;
 
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet(name = "catalogue", value = "/catalogue-controller")
 public class CatalogueController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        BookDAOImpl bookDAOImpl = new BookDAOImpl();
 
-        List<Book> bookList =
-                (List<Book>) getServletContext().getAttribute("books");
+//        List<Book> bookList =
+//                (List<Book>) getServletContext().getAttribute("books");
+
+
 
         String searchTitle = req.getParameter("search");
 
@@ -26,18 +29,21 @@ public class CatalogueController extends HttpServlet {
         } else {
             boolean foundBook = false;
 
-            for (Book book : bookList) {
-                if (book.getTitle().toLowerCase()
-                        .contains(searchTitle.toLowerCase())) {
+            Book book = bookDAOImpl.searchByTitle(searchTitle);
 
-                    req.setAttribute("book", book);
-                    foundBook = true;
-                    break;
-                }
+            if(book != null ){
+            req.setAttribute("book", book);
+            foundBook = true;
+            req.setAttribute("foundBook", foundBook);
+
+
+            }else {
+                req.setAttribute("searchPerformed", true);
+
+
             }
 
-            req.setAttribute("searchPerformed", true);
-            req.setAttribute("foundBook", foundBook);
+
         }
 
         req.getRequestDispatcher("/WEB-INF/Welcome.jsp").forward(req, resp);

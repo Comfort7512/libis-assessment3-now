@@ -70,7 +70,7 @@
 
         </a>
 
-        <a href="${pageContext.request.contextPath}//login"
+        <a href="${pageContext.request.contextPath}/login"
            class="btn btn-primary">
 
             Log In

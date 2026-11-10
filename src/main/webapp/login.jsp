@@ -27,11 +27,11 @@
             <div class="text-center mb-4">
                 <h2 class="fw-bold">Welcome Back</h2>
                 <p class="text-muted">
-                    Log in to view member information
+                    Log in to view library information
                 </p>
             </div>
 
-            <form method="post" action="${pageContext.request.contextPath}//login">
+            <form method="post" action="${pageContext.request.contextPath}/login">
 
                 <div class="mb-3">
                     <label for="email" class="form-label fw-semibold">
@@ -68,12 +68,12 @@
                 </div>
 
 
-                <div class="d-grid mt-3">
-                    <a href="${pageContext.request.contextPath}/register.jsp"
-                       class="btn btn-secondary btn-lg">
-                        Register
-                    </a>
-                </div>
+<%--                <div class="d-grid mt-3">--%>
+<%--                    <a href="${pageContext.request.contextPath}/register-member.jsp"--%>
+<%--                       class="btn btn-secondary btn-lg">--%>
+<%--                        Register--%>
+<%--                    </a>--%>
+<%--                </div>--%>
 
                 <input
                         type="hidden"

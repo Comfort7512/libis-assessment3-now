@@ -1,4 +1,4 @@
-package org.example.libis.data;
+package org.example.libis.dao;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;

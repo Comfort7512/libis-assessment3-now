@@ -12,11 +12,12 @@ import lombok.Setter;
 @Getter
 public class Book {
     private int bookId;
+    private String isbn;
     private String title;
     private String author;
+    private String publishedYear;
     private String genre;
     private String synopsis;
-    private boolean available;
 
 
 }

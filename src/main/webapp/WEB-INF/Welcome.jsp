@@ -84,7 +84,8 @@
     <div class="container py-2">
 
 
-        <a class="navbar-brand fw-bold text-primary" href="${pageContext.request.contextPath}/book-controller">
+        <a class="navbar-brand fw-bold text-primary" href=
+                "${pageContext.request.contextPath}/book-controller">
             📚 LIBIS
         </a>
 
@@ -96,6 +97,11 @@
             </strong>
         </span>
         </div>
+
+        <a class="navbar-brand fw-bold text-primary" href=
+                "${pageContext.request.contextPath}/register-member.jsp">
+            Add User
+        </a>
 
 
         <a href="${pageContext.request.contextPath}/logout-controller" class="btn btn-outline-danger btn-sm px-3">
@@ -158,6 +164,8 @@
 
 
 
+
+
     <!-- Catalogue table -->
     <div class="card catalogue-card shadow-sm">
 
@@ -212,7 +220,7 @@
                             <td class="text-center">
 
                             <span class="badge bg-light text-secondary border  me-1">
-                                <a href="${pageContext.request.contextPath}/book-servlet?bookId=${requestScope.book.bookId}">View</a>
+                                <a href="${pageContext.request.contextPath}/book-controller?bookId=${requestScope.book.bookId}">View</a>
                             </span>
 
                             <span class="badge bg-light text-secondary border  me-1">
@@ -232,12 +240,12 @@
 
                 <c:when test="${requestScope.searchPerformed}">
                     <tr>
-                        <td>No books Found</td>
+                        <td colspan="4">No books Found</td>
                     </tr>
                 </c:when>
 
                     <c:otherwise>
-                        <c:forEach var="book" items="${applicationScope.books}" varStatus="bs">
+                        <c:forEach var="book" items="${requestScope.books}" varStatus="bs">
 
                         <tr>
                                 <td>${bs.count}</td>
@@ -248,7 +256,7 @@
                             <td class="text-center">
 
                             <span class="badge bg-light text-secondary border  me-1">
-                                <a href="${pageContext.request.contextPath}/book-servlet?id=${book.bookId}">View</a>
+                                <a href="${pageContext.request.contextPath}/book-controller?bookId=${book.bookId}">View</a>
                             </span>
 
                                 <span class="badge bg-light text-secondary border  me-1">

@@ -64,6 +64,18 @@
                            required>
                 </div>
 
+                <div class="mb-3">
+                    <label for="email" class="form-label fw-semibold">
+                        Username
+                    </label>
+                    <input type="text"
+                           name="username"
+                           id="username"
+                           class="form-control form-control-lg"
+                           placeholder="Enter username"
+                           required>
+                </div>
+
                 <div class="mb-4">
                     <label for="password" class="form-label fw-semibold">
                         Password
@@ -76,19 +88,28 @@
                            required>
                 </div>
 
+
                 <div class="d-grid">
                     <button type="submit" class="btn btn-primary btn-lg">
                         Register
                     </button>
                 </div>
 
-                <div class="text-center mt-4">
-                    <span class="text-muted">Already have an account?</span>
-                    <a href="${pageContext.request.contextPath}/login"
-                       class="text-decoration-none fw-semibold">
-                        Log In
-                    </a>
-                </div>
+<%--                <div class="text-center mt-4">--%>
+<%--                    <span class="text-muted">Already have an account?</span>--%>
+<%--                    <a href="${pageContext.request.contextPath}/login"--%>
+<%--                       class="text-decoration-none fw-semibold">--%>
+<%--                        Log In--%>
+<%--                    </a>--%>
+<%--                </div>--%>
+
+                <input
+                        type="hidden"
+                        name="role"
+                        id="role"
+                        value="member"
+                        required>
+
                 <input
                         type="hidden"
                         name="action"
@@ -106,4 +127,4 @@
 
 </body>
 </html>
-```
+
