@@ -4,9 +4,7 @@ package org.example.libis.dao;
 
 import org.example.libis.model.Book;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +33,7 @@ public class BookDAOImpl implements BookDAO {
                             rs.getString("isbn"),
                             rs.getString("title"),
                             rs.getString("author"),
-                            rs.getString("published_year"),
+                            rs.getDate("published_year").toLocalDate(),
                             rs.getString("genre"),
                             rs.getString("synopsis")
 //                            rs.getBoolean("available")
@@ -69,8 +67,7 @@ public class BookDAOImpl implements BookDAO {
                             rs.getInt("book_Id"),
                             rs.getString("isbn"),
                             rs.getString("title"),
-                            rs.getString("author"),
-                            rs.getString("published_year"),
+                            rs.getString("author"), rs.getDate("published_year").toLocalDate(),
                             rs.getString("genre"),
                             rs.getString("synopsis")
 //                            rs.getBoolean("available")
@@ -106,7 +103,7 @@ public class BookDAOImpl implements BookDAO {
                             rs.getString("isbn"),
                             rs.getString("title"),
                             rs.getString("author"),
-                            rs.getString("published_year"),
+                            rs.getDate("published_year").toLocalDate(),
                             rs.getString("genre"),
                             rs.getString("synopsis")
 //                            rs.getBoolean("available")
@@ -142,7 +139,7 @@ public class BookDAOImpl implements BookDAO {
                             rs.getString("isbn"),
                             rs.getString("title"),
                             rs.getString("author"),
-                            rs.getString("published_year"),
+                            rs.getDate("published_year").toLocalDate(),
                             rs.getString("genre"),
                             rs.getString("synopsis")
 //                            rs.getBoolean("available")
@@ -159,17 +156,71 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public void create(Book book) {
+    public int create(Book book) {
+
+        int rowsAffected = -1;
+
+        String sql = "insert into books( isbn, title, author, published_year, genre, synopsis) values (?,?,?,?,?,?)";
+        //String updateSQL = " UPDATE members SET member_number = ? WHERE member_id = ? ";
+
+        try(Connection connection = DataBaseConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql))
+        {
+            preparedStatement.setString(1,book.getIsbn());
+            preparedStatement.setString(2, book.getTitle());
+            preparedStatement.setString(3, book.getAuthor());
+            preparedStatement.setDate(4, Date.valueOf(book.getPublishedYear()));
+            preparedStatement.setString(5, book.getGenre());
+            preparedStatement.setString(6, book.getSynopsis());
+
+            rowsAffected = preparedStatement.executeUpdate();
+
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return rowsAffected;
+
+
 
     }
 
     @Override
-    public void update(Book book) {
+    public int update(Book book) {
+
+    return -1;
 
     }
 
     @Override
-    public void delete(int id) {
-        
+    public int delete(int id) {
+        String sql = "DELETE FROM books  WHERE book_id = ?";
+
+        int rowsAffected;
+
+
+        try(Connection connection = DataBaseConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql))
+        {
+            preparedStatement.setInt(1,id);
+
+            rowsAffected = preparedStatement.executeUpdate();
+
+            if(rowsAffected>0){
+                System.out.println("The is book is deleted");
+            }
+
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return rowsAffected;
     }
+
+
 }

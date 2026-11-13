@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class Member {
-    private int userId;
+    private int member_id;
     private String member_number;
     private String name;
     private String surname;
@@ -20,13 +20,14 @@ public class Member {
 
 
 
-//    public User(int userId, String name, String surname, String email, String password) {
-//        this.userId = userId;
-//        this.name = name;
-//        this.surname = surname;
-//        this.email = email;
-//        this.password = password;
-//    }
+    public Member( String name, String surname, String email, String username, String password,Role role) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
 
 
 

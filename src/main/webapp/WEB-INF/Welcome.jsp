@@ -98,10 +98,20 @@
         </span>
         </div>
 
-        <a class="navbar-brand fw-bold text-primary" href=
-                "${pageContext.request.contextPath}/register-member.jsp">
-            Add User
-        </a>
+
+        <div class="mt-3">
+            <a href="${pageContext.request.contextPath}/member-controller"
+               class="btn btn-success">
+                Manage Members
+            </a>
+        </div>
+
+        <div class="mt-3">
+            <a href="${pageContext.request.contextPath}/member-controller"
+               class="btn btn-success">
+                Manage Books
+            </a>
+        </div>
 
 
         <a href="${pageContext.request.contextPath}/logout-controller" class="btn btn-outline-danger btn-sm px-3">

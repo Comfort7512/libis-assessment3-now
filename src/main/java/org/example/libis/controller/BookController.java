@@ -6,19 +6,29 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.libis.dao.BookDAOImpl;
+import org.example.libis.dao.LoanDAO;
+import org.example.libis.dao.LoanDAOImpl;
 import org.example.libis.model.Book;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @WebServlet(name = "book-view", value = "/book-controller", loadOnStartup = 1)
 public class BookController extends HttpServlet {
 
     BookDAOImpl bookDAOImpl = new BookDAOImpl();
+    LoanDAO loanDAO = new LoanDAOImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("Book controller called");
+
+                int checkSuccess = loanDAO.countOpenByMember(6);
+        
+                boolean check = checkSuccess > 0;
+
+        System.out.println("Member has Successfully borrowed "+ checkSuccess + " books");
+
 
         String bookId = req.getParameter("bookId");
 

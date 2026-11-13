@@ -5,10 +5,7 @@ import org.example.libis.model.Role;
 import org.example.libis.model.Member;
 
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -161,20 +158,11 @@ public class MemberDAOImpl implements MemberDAO{
 
                 if (rs.next()) {
 
-                    String roleStr = rs.getString("role");
-                    Role role = (roleStr != null) ? Role.valueOf(roleStr.toUpperCase()) : null;
+//                    String roleStr = rs.getString("role");
+//                    Role role = (roleStr != null) ? Role.valueOf(roleStr.toUpperCase()) : null;
 
 
-                    member = new Member(
-                            rs.getInt("member_id"),
-                            rs.getString("member_number"),
-                            rs.getString("name"),
-                            rs.getString("surname"),
-                            rs.getString("email"),
-                            rs.getString("username"),
-                            rs.getString("password"),
-                            role
-                    );
+                    member = memberMap(rs);
 
                 }
             }
@@ -293,17 +281,88 @@ public class MemberDAOImpl implements MemberDAO{
     }
 
     @Override
-    public void create(Member member) {
+    public int create(Member member) {
+
+        int rowsAffected = -1;
+
+        String sql = "insert into members(name, surname, email, username, password, role) values (?,?,?,?,?,?)";
+        String updateSQL = " UPDATE members SET member_number = ? WHERE member_id = ? ";
+
+        try(Connection connection = DataBaseConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))
+        {
+            preparedStatement.setString(1,member.getName());
+            preparedStatement.setString(2, member.getSurname());
+            preparedStatement.setString(3, member.getEmail());
+            preparedStatement.setString(4, member.getUsername());
+            preparedStatement.setString(5, member.getPassword());
+            preparedStatement.setString(6, String.valueOf(member.getRole()));
+
+            rowsAffected = preparedStatement.executeUpdate();
+
+            if(rowsAffected>0){
+                try(ResultSet rs = preparedStatement.getGeneratedKeys()) {
+
+                    if(rs.next()){
+                        int id = rs.getInt(1);
+                        String member_number = "MEM-"+ (id + 1007); //   ORIGNALLY SHOULD BE 999
+                        try(PreparedStatement preparedStatement1 = connection.prepareStatement(updateSQL))
+                        {
+                            preparedStatement1.setString(1,member_number);
+                            preparedStatement1.setInt(2,id);
+
+                            preparedStatement1.executeUpdate();
+                        }
+
+                    }else {
+                        throw new SQLException("failed TO GET generated ID");
+                    }
+
+                }
+
+
+                    System.out.println("The member was successfully created is created");
+            }
+
+
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    return rowsAffected;
+
 
     }
 
     @Override
-    public void update(Member member) {
-
+    public int update(Member member) {
+        return -1;
     }
 
     @Override
-    public void delete(int id) {
+    public int delete(int id) {
+            String sql = "DELETE FROM members  WHERE member_id = ?";
+            int rowsAffected;
 
+
+            try(Connection connection = DataBaseConnection.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(sql))
+            {
+                preparedStatement.setInt(1,id);
+
+                rowsAffected = preparedStatement.executeUpdate();
+
+                if(rowsAffected>0){
+                    System.out.println("The is user is deleted");
+                }
+
+
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            return rowsAffected;
     }
 }

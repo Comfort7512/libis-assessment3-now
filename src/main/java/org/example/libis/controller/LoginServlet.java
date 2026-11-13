@@ -71,9 +71,9 @@ public class LoginServlet extends HttpServlet {
         boolean valid = false;
 
         Member members1 = null;
-        members1 = memberDAO.searchByEmail("kitso@gmail.com");
-
-        System.out.println("Members found\n" +members1);
+//        members1 = memberDAO.searchByEmail("kitso@gmail.com");
+//
+//        System.out.println("Members found\n" +members1);
 
         foundMember = memberDAO.validate(email,password);
 

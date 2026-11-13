@@ -18,9 +18,9 @@ public interface MemberDAO {
 
     Member searchByEmail(String keyword);
 
-    void create(Member member);
+    int create(Member member);
 
-    void update(Member member);
+    int update(Member member);
 
-    void delete(int id);
+    int delete(int id);
 }

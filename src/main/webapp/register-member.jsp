@@ -26,7 +26,7 @@
                 <p class="text-muted">Register as a member</p>
             </div>
 
-            <form method="post" action="${pageContext.request.contextPath}/login">
+            <form method="post" action="${pageContext.request.contextPath}/member-controller">
 
                 <div class="mb-3">
                     <label for="firstName" class="form-label fw-semibold">
