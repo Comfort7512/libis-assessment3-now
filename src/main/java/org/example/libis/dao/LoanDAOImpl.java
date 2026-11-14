@@ -71,7 +71,7 @@ public class LoanDAOImpl implements LoanDAO {
     }
 
     @Override
-    public int hasOpenLoan(int bookId) { //checks whether book is returned
+    public boolean hasOpenLoan(int bookId) { //checks whether book is returned
         String sql = "select count(*) from loans where book_id = ? and returned_on is null";
 
        // int rowsAffected = -1;
@@ -85,7 +85,7 @@ public class LoanDAOImpl implements LoanDAO {
 
             try(ResultSet resultSet = preparedStatement.executeQuery()){
                 if(resultSet.next()){
-                    return resultSet.getInt(1);
+                    return resultSet.getInt(1) > 0 ;
                 }
             }
 
@@ -98,7 +98,7 @@ public class LoanDAOImpl implements LoanDAO {
         }
 
 
-        return 0;
+        return false;
 
     }
 

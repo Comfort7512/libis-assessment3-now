@@ -10,7 +10,7 @@ public interface LoanDAO {
     int create(int memberId, int bookId);
 
     int countOpenByMember(int memberId);
-    int hasOpenLoan(int bookId);
+    boolean hasOpenLoan(int bookId);
 
 
     int markRetuned(int bookId);
