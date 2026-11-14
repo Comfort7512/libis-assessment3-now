@@ -7,7 +7,7 @@ import org.example.libis.dao.LoanDAOImpl;
 import org.example.libis.exeception.LoanException;
 import org.example.libis.model.Book;
 
-public class LoanServiceImpl implements LoanInterface{
+public class LoanServiceImpl implements LoanServiceInterface {
 
     private final LoanDAO loanDAO = new LoanDAOImpl();
     private final BookDAO bookDAO = new BookDAOImpl();

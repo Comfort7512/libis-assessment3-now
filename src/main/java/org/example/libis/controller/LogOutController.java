@@ -27,6 +27,6 @@ public class LogOutController extends HttpServlet {
         resp.setHeader("Pragma", "no-cache");
         resp.setDateHeader("Expires", 0);
 
-        resp.sendRedirect(req.getContextPath()+"/login.jsp");
+        resp.sendRedirect(req.getContextPath()+"/index.jsp");
     }
 }

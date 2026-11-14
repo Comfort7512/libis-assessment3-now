@@ -106,6 +106,17 @@
             </a>
         </div>
 
+
+<c:if test="${pageContext.request.isUserInRole('member')}">
+
+<a href="${pageContext.request.contextPath}/my-loans"
+           class="btn btn-primary">
+
+            My Loans
+
+        </a>
+</c:if>
+
         <div class="mt-3">
             <a href="${pageContext.request.contextPath}/member-controller"
                class="btn btn-success">
@@ -125,6 +136,19 @@
 </nav>
 
 <!-- Main content -->
+<c:if test="${not empty sessionScope.error}">
+
+    <div class="alert alert-danger">
+
+        <c:out value="${sessionScope.error}"/>
+
+    </div>
+
+    <c:remove
+            var="error"
+            scope="session"/>
+
+</c:if>
 
 <div class="container py-5">
 
@@ -233,9 +257,24 @@
                                 <a href="${pageContext.request.contextPath}/book-controller?bookId=${requestScope.book.bookId}">View</a>
                             </span>
 
-                            <span class="badge bg-light text-secondary border  me-1">
-                            Borrow
-                            </span>
+                                <form
+                                        action="${pageContext.request.contextPath}/borrow-controller"
+                                        method="post"
+                                        style="display:inline;">
+
+                                    <input
+                                            type="hidden"
+                                            name="bookId"
+                                            value="${book.bookId}">
+
+                                    <button
+                                            type="submit"
+                                            class="btn btn-success btn-sm">
+
+                                        Borrow
+                                    </button>
+
+                                </form>
 
                             <span class="badge bg-light text-secondary border ">
                             Reserve
@@ -269,9 +308,26 @@
                                 <a href="${pageContext.request.contextPath}/book-controller?bookId=${book.bookId}">View</a>
                             </span>
 
-                                <span class="badge bg-light text-secondary border  me-1">
-                            Borrow
-                            </span>
+
+                                <form
+                                        action="${pageContext.request.contextPath}/borrow-controller"
+                                        method="post"
+                                        style="display:inline;">
+
+                                    <input
+                                            type="hidden"
+                                            name="bookId"
+                                            value="${book.bookId}">
+
+                                    <button
+                                            type="submit"
+                                            class="btn btn-success btn-sm">
+
+                                        Borrow
+                                    </button>
+
+                                </form>
+
 
                                 <span class="badge bg-light text-secondary border ">
                             Reserve

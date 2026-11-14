@@ -25,14 +25,7 @@ public class BookController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-                String email = req.getRemoteUser();
-
-                List<Loan> loans = loanDAO.findHistoryByMember(6);
-
-               // boolean check = checkSuccess > 0;
-
-        System.out.println("Loans History for this user of email "+ email + "\n"+loans);
-
+                
 
         String bookId = req.getParameter("bookId");
 
