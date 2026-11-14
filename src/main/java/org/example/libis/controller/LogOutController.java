@@ -14,12 +14,19 @@ public class LogOutController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.logout();// Ends the container-managed authentication for the current request.
+
+
         HttpSession session = req.getSession(false);
-        if(session==null || session.getAttribute("username")==null){
+
+        if(session!=null){
             session.invalidate();
         }
 
-        req.getRequestDispatcher("/WEB-INF/login.jsp")
-                .forward(req, resp);
+        resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        resp.setHeader("Pragma", "no-cache");
+        resp.setDateHeader("Expires", 0);
+
+        resp.sendRedirect(req.getContextPath()+"/login.jsp");
     }
 }

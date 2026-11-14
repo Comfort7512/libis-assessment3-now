@@ -31,7 +31,7 @@
                 </p>
             </div>
 
-            <form method="post" action="${pageContext.request.contextPath}/login">
+            <form method="post" action="${pageContext.request.contextPath}/j_security_check">
 
                 <div class="mb-3">
                     <label for="email" class="form-label fw-semibold">
@@ -40,7 +40,7 @@
 
                     <input
                             type="email"
-                            name="email"
+                            name="j_username"
                             id="email"
                             class="form-control form-control-lg"
                             placeholder="Enter your email"
@@ -54,7 +54,7 @@
 
                     <input
                             type="password"
-                            name="password"
+                            name="j_password"
                             id="password"
                             class="form-control form-control-lg"
                             placeholder="Enter your password"
@@ -68,19 +68,19 @@
                 </div>
 
 
-<%--                <div class="d-grid mt-3">--%>
-<%--                    <a href="${pageContext.request.contextPath}/register-member.jsp"--%>
-<%--                       class="btn btn-secondary btn-lg">--%>
-<%--                        Register--%>
-<%--                    </a>--%>
-<%--                </div>--%>
+                <div class="d-grid mt-3">
+                    <a href="${pageContext.request.contextPath}/register-member.jsp"
+                       class="btn btn-secondary btn-lg">
+                        Register
+                    </a>
+                </div>
 
-                <input
-                        type="hidden"
-                        name="action"
-                        id="password"
-                        value="login"
-                        required>
+<%--                <input--%>
+<%--                        type="hidden"--%>
+<%--                        name="action"--%>
+<%--                        id="password"--%>
+<%--                        value="login"--%>
+<%--                        required>--%>
 
             </form>
 

@@ -9,6 +9,8 @@ import org.example.libis.dao.BookDAOImpl;
 import org.example.libis.dao.LoanDAO;
 import org.example.libis.dao.LoanDAOImpl;
 import org.example.libis.model.Book;
+import org.example.libis.model.Loan;
+import org.example.libis.model.Member;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -23,11 +25,13 @@ public class BookController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-                int checkSuccess = loanDAO.countOpenByMember(6);
-        
-                boolean check = checkSuccess > 0;
+                String email = req.getRemoteUser();
 
-        System.out.println("Member has Successfully borrowed "+ checkSuccess + " books");
+                List<Loan> loans = loanDAO.findHistoryByMember(6);
+
+               // boolean check = checkSuccess > 0;
+
+        System.out.println("Loans History for this user of email "+ email + "\n"+loans);
 
 
         String bookId = req.getParameter("bookId");

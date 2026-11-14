@@ -13,7 +13,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "login-controller", value = "/login")
+@WebServlet
+        (name = "login-controller", value = "/login")
 public class LoginServlet extends HttpServlet {
     Member foundMember = null;
     MemberDAOImpl memberDAO = new MemberDAOImpl();
@@ -75,22 +76,22 @@ public class LoginServlet extends HttpServlet {
 //
 //        System.out.println("Members found\n" +members1);
 
-        foundMember = memberDAO.validate(email,password);
+        //foundMember = memberDAO.validate(email,password);
 
-
-        if(foundMember != null){
-            session.setAttribute("username", foundMember.getName());
-//            req.getRequestDispatcher("/WEB-INF/Welcome.jsp")
+//
+//        if(foundMember != null){
+//            session.setAttribute("username", foundMember.getName());
+////            req.getRequestDispatcher("/WEB-INF/Welcome.jsp")
+////                    .forward(req, resp);
+//            resp.sendRedirect(req.getContextPath() + "/book-controller");
+//
+//        }
+//        if(foundMember == null){
+//            req.getRequestDispatcher("/WEB-INF/login.jsp")
 //                    .forward(req, resp);
-            resp.sendRedirect(req.getContextPath() + "/book-controller");
-
-        }
-        if(foundMember == null){
-            req.getRequestDispatcher("/WEB-INF/login.jsp")
-                    .forward(req, resp);
-//            resp.sendRedirect(req.getContextPath() + "/login.jsp");
-
-        }
+////            resp.sendRedirect(req.getContextPath() + "/login.jsp");
+//
+//        }
 
     }
 

@@ -22,6 +22,10 @@ public class MemberController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Member member ;
 
+        String email = req.getRemoteUser();
+        Member member1 = memberDAO.searchByEmail(email);
+        System.out.println("Member username \n"+member1.getUsername());
+
         //boolean searchedPerformed = false;
         String searchType = req.getParameter("searchType");
         String keyword = req.getParameter("keyword");

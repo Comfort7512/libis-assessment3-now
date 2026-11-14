@@ -70,7 +70,7 @@
 
         </a>
 
-        <a href="${pageContext.request.contextPath}/login"
+        <a href="${pageContext.request.contextPath}/book-controller"
            class="btn btn-primary">
 
             Log In
@@ -116,7 +116,7 @@
 
                 <div class="d-flex gap-3 flex-wrap">
 
-                    <a href="${pageContext.request.contextPath}//login"
+                    <a href="${pageContext.request.contextPath}/book-controller"
                        class="btn btn-light btn-lg px-4 fw-semibold">
 
                         Log In to Catalogue

@@ -12,8 +12,104 @@
         <role-name>librarian</role-name>
     </security-role>
 
+    <!-- Catalogue: Both roles -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Catalogue</web-resource-name>
+<!--            <url-pattern>/catalogue/*</url-pattern>  book for now instead of catalogue-->
+            <url-pattern>/book-controller/*</url-pattern>
+        </web-resource-collection>
+
+        <auth-constraint>
+            <role-name>member</role-name>
+            <role-name>librarian</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Catalogue2</web-resource-name>
+            <!--            <url-pattern>/catalogue/*</url-pattern>  book for now instead of catalogue-->
+            <url-pattern>/catalogue-controller/*</url-pattern>
+        </web-resource-collection>
+
+        <auth-constraint>
+            <role-name>member</role-name>
+            <role-name>librarian</role-name>
+        </auth-constraint>
+    </security-constraint>
 
 
+    <!-- Borrowing: Members only -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Borrow Books</web-resource-name>
+            <url-pattern>/borrow/*</url-pattern>
+        </web-resource-collection>
+
+        <auth-constraint>
+            <role-name>member</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+
+    <!-- Returning: Members only -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Return Books</web-resource-name>
+            <url-pattern>/return/*</url-pattern>
+        </web-resource-collection>
+
+        <auth-constraint>
+            <role-name>member</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+
+    <!-- My Loans: Members only -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>My Loans</web-resource-name>
+            <url-pattern>/my-loans/*</url-pattern>
+        </web-resource-collection>
+
+        <auth-constraint>
+            <role-name>member</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+
+    <!-- Librarian: Librarians only -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Librarian Management</web-resource-name>
+            <url-pattern>/librarian/*</url-pattern>
+        </web-resource-collection>
+
+        <auth-constraint>
+            <role-name>librarian</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Test Authentication</web-resource-name>
+            <url-pattern>/catalogue-controller</url-pattern>
+        </web-resource-collection>
+
+        <auth-constraint>
+            <role-name>member</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <login-config>
+        <auth-method>FORM</auth-method>
+
+        <form-login-config>
+            <form-login-page>/login.jsp</form-login-page>
+            <form-error-page>/login-error.jsp</form-error-page>
+        </form-login-config>
+    </login-config>
 
 
 

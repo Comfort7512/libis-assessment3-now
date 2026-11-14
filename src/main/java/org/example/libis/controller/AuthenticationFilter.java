@@ -8,9 +8,11 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {
-        "/Book.jsp", "/Welcome.jsp"
-})
+@WebFilter
+//        (
+//        urlPatterns = {
+//        "/Book.jsp", "/Welcome.jsp"
+//})
 public class AuthenticationFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {

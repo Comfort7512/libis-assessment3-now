@@ -34,39 +34,39 @@ public class MemberDAOImpl implements MemberDAO{
 
     }
 
-    public Member validate(String email, String pass) {
-        System.out.println("Validate called");
-
-        Member member = null;
-
-
-        String loginValidateQuery = "select * from members where email=? and password=?";
-
-        try(Connection connection = DataBaseConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(loginValidateQuery)
-            ) {
-            preparedStatement.setString(1,email);
-            preparedStatement.setString(2,pass);
-
-
-            try(ResultSet rs = preparedStatement.executeQuery()){
-                if(rs.next()){
-
-                    member = memberMap(rs);
-
-                }
-            }
-
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return member;
-
-
-
-    }
+//    public Member validate(String email, String pass) {
+//        System.out.println("Validate called");
+//
+//        Member member = null;
+//
+//
+//        String loginValidateQuery = "select * from members where email=? and password=?";
+//
+//        try(Connection connection = DataBaseConnection.getConnection();
+//            PreparedStatement preparedStatement = connection.prepareStatement(loginValidateQuery)
+//            ) {
+//            preparedStatement.setString(1,email);
+//            preparedStatement.setString(2,pass);
+//
+//
+//            try(ResultSet rs = preparedStatement.executeQuery()){
+//                if(rs.next()){
+//
+//                    member = memberMap(rs);
+//
+//                }
+//            }
+//
+//
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        return member;
+//
+//
+//
+//    }
 
     public int registerUser(String email,
                              String password,
