@@ -14,7 +14,7 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     public int create(int memberId, int bookId) { // borrow book
 
-        String sql = "INSERT INTO loans(member_id, book_id, borrowed_on) VALUES (?, ?, CURDATE()) ";
+        String sql = "INSERT INTO loan(member_id, book_id, borrowed_on) VALUES (?, ?, CURDATE()) ";
         int rowsAffected = -1;
 
 
@@ -40,7 +40,7 @@ public class LoanDAOImpl implements LoanDAO {
 
     @Override
     public int countOpenByMember(int memberId) { // count number of books not returned by user
-        String sql = "select count(*) from loans where member_id = ? and returned_on is null";
+        String sql = "select count(*) from loan where member_id = ? and returned_on is null";
 
         int rowsAffected = -1;
 
@@ -72,7 +72,7 @@ public class LoanDAOImpl implements LoanDAO {
 
     @Override
     public boolean hasOpenLoan(int bookId) { //checks whether book is returned
-        String sql = "select count(*) from loans where book_id = ? and returned_on is null";
+        String sql = "select count(*) from loan where book_id = ? and returned_on is null";
 
        // int rowsAffected = -1;
 
@@ -105,7 +105,7 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     public int markRetuned(int bookId) { //checks whether book is returned
 
-        String sql = "UPDATE loans SET returned_on = CURDATE() WHERE book_id = ? AND returned_on IS NULL";
+        String sql = "UPDATE loan SET returned_on = CURDATE() WHERE book_id = ? AND returned_on IS NULL";
 
         int rowsAffected = 0;
 
@@ -139,7 +139,7 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     public List<Loan> findOpenByMember(int memberId) { // returns all books the member currently has out:
 
-        String sql = "select * from loans where member_id = ? and returned_on is null";
+        String sql = "select * from loan where member_id = ? and returned_on is null";
         List<Loan> loans = new ArrayList<>();
 
         try(Connection connection = DataBaseConnection.getConnection();
@@ -179,7 +179,7 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     public List<Loan> findHistoryByMember(int memberId) { // returns all books the member currently has out:
 
-        String sql = "select * from loans where member_id = ?";
+        String sql = "select * from loan where member_id = ?";
 
         List<Loan> loans = new ArrayList<>();
 

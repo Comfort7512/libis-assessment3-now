@@ -74,7 +74,7 @@ public class MemberDAOImpl implements MemberDAO{
                              String lastName){
         int rowsAffected;
 
-        String createUserSQL = "insert into members(name,surname,email,password) values(?,?,?,?)";
+        String createUserSQL = "insert into member(name,surname,email,password) values(?,?,?,?)";
 
         try(Connection connection = DataBaseConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(createUserSQL))
@@ -106,7 +106,7 @@ public class MemberDAOImpl implements MemberDAO{
         List<Member> members = new ArrayList<>();
 
 
-        String  returnAllMembers = "select * from members";
+        String  returnAllMembers = "select * from member";
 
         try(Connection connection = DataBaseConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(returnAllMembers);
@@ -145,7 +145,7 @@ public class MemberDAOImpl implements MemberDAO{
     public Member findById(int id) {
         Member member = null;
 
-        String  returnMember = "select * from members where member_id = ?";
+        String  returnMember = "select * from member where member_id = ?";
 
         try(Connection connection = DataBaseConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(returnMember);
@@ -179,7 +179,7 @@ public class MemberDAOImpl implements MemberDAO{
 
         Member member = null;
 
-        String  returnMember = "select * from members where username = ?";
+        String  returnMember = "select * from member where username = ?";
 
         try(Connection connection = DataBaseConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(returnMember);
@@ -221,7 +221,7 @@ public class MemberDAOImpl implements MemberDAO{
     public Member searchByMemberNumber(String keyword) {
         Member member = null;
 
-        String  sql = "select * from members where member_number = ?";
+        String  sql = "select * from member where member_number = ?";
 
         try(Connection connection = DataBaseConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -255,7 +255,7 @@ public class MemberDAOImpl implements MemberDAO{
     public Member searchByEmail(String keyword) {
         Member member = null;
 
-        String  sql = "select * from members where email = ?";
+        String  sql = "select * from member where email = ?";
 
         try(Connection connection = DataBaseConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -285,8 +285,8 @@ public class MemberDAOImpl implements MemberDAO{
 
         int rowsAffected = -1;
 
-        String sql = "insert into members(name, surname, email, username, password, role) values (?,?,?,?,?,?)";
-        String updateSQL = " UPDATE members SET member_number = ? WHERE member_id = ? ";
+        String sql = "insert into member(name, surname, email, username, password, role) values (?,?,?,?,?,?)";
+        String updateSQL = " UPDATE member SET member_number = ? WHERE member_id = ? ";
 
         try(Connection connection = DataBaseConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))
@@ -337,12 +337,51 @@ public class MemberDAOImpl implements MemberDAO{
 
     @Override
     public int update(Member member) {
-        return -1;
+
+        int rowsAffected = -1;
+
+        String sql = """
+            UPDATE member
+            SET member_number = ?,
+                name = ?,
+                surname = ?,
+                email = ?,
+                username = ?,
+                password = ?,
+                role = ?
+            WHERE member_id = ?
+            """;
+
+        try (Connection connection = DataBaseConnection.getConnection();
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, member.getMember_number());
+            preparedStatement.setString(2, member.getName());
+            preparedStatement.setString(3, member.getSurname());
+            preparedStatement.setString(4, member.getEmail());
+            preparedStatement.setString(5, member.getUsername());
+            preparedStatement.setString(6, member.getPassword());
+
+            preparedStatement.setString(7,
+                    member.getRole().name());
+
+            preparedStatement.setInt(8,
+                    member.getMember_id());
+
+            rowsAffected = preparedStatement.executeUpdate();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return rowsAffected;
     }
+
 
     @Override
     public int delete(int id) {
-            String sql = "DELETE FROM members  WHERE member_id = ?";
+            String sql = "DELETE FROM member  WHERE member_id = ?";
             int rowsAffected;
 
 

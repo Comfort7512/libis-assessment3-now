@@ -5,11 +5,11 @@
          version="6.0">
 
     <security-role>
-        <role-name>member</role-name>
+        <role-name>LIBRARIAN</role-name>
     </security-role>
 
     <security-role>
-        <role-name>librarian</role-name>
+        <role-name>MEMBER</role-name>
     </security-role>
 
     <!-- Catalogue: Both roles -->
@@ -21,8 +21,8 @@
         </web-resource-collection>
 
         <auth-constraint>
-            <role-name>member</role-name>
-            <role-name>librarian</role-name>
+            <role-name>MEMBER</role-name>
+            <role-name>LIBRARIAN</role-name>
         </auth-constraint>
     </security-constraint>
 
@@ -34,8 +34,8 @@
         </web-resource-collection>
 
         <auth-constraint>
-            <role-name>member</role-name>
-            <role-name>librarian</role-name>
+            <role-name>MEMBER</role-name>
+            <role-name>LIBRARIAN</role-name>
         </auth-constraint>
     </security-constraint>
 
@@ -48,7 +48,7 @@
         </web-resource-collection>
 
         <auth-constraint>
-            <role-name>member</role-name>
+            <role-name>MEMBER</role-name>
         </auth-constraint>
     </security-constraint>
 
@@ -61,7 +61,7 @@
         </web-resource-collection>
 
         <auth-constraint>
-            <role-name>member</role-name>
+            <role-name>MEMBER</role-name>
         </auth-constraint>
     </security-constraint>
 
@@ -74,7 +74,7 @@
         </web-resource-collection>
 
         <auth-constraint>
-            <role-name>member</role-name>
+            <role-name>MEMBER</role-name>
         </auth-constraint>
     </security-constraint>
 
@@ -87,7 +87,8 @@
         </web-resource-collection>
 
         <auth-constraint>
-            <role-name>librarian</role-name>
+            <role-name>LIBRARIAN
+            </role-name>
         </auth-constraint>
     </security-constraint>
 
@@ -98,8 +99,10 @@
         </web-resource-collection>
 
         <auth-constraint>
-            <role-name>member</role-name>
+            <role-name>MEMBER</role-name>
+            <role-name>LIBRARIAN</role-name>
         </auth-constraint>
+
     </security-constraint>
 
     <login-config>

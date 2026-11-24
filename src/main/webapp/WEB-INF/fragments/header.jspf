@@ -1,0 +1,64 @@
+
+    <!-- Navigation -->
+
+    <nav class="navbar navbar-light bg-white shadow-sm">
+        <div class="container py-2">
+
+
+            <a class="navbar-brand fw-bold text-primary" href=
+                    "${pageContext.request.contextPath}/book-controller">
+                📚 LIBIS
+            </a>
+
+            <div class="d-flex align-items-center">
+        <span class="welcome-text me-3">
+            Welcome,
+            <strong class="text-dark">
+                <c:out value="${pageContext.request.userPrincipal.name}"/>
+            </strong>
+        </span>
+            </div>
+
+    <c:if test="${pageContext.request.isUserInRole('LIBRARIAN')}">
+
+
+            <div class="mt-3">
+                <a href="${pageContext.request.contextPath}/member-controller"
+                   class="btn btn-success">
+                    Manage Members
+                </a>
+            </div>
+    </c:if>
+
+            <c:if test="${pageContext.request.isUserInRole('MEMBER')}">
+
+                <a href="${pageContext.request.contextPath}/my-loans"
+                   class="btn btn-primary">
+
+                    My Loans
+
+                </a>
+            </c:if>
+
+    <c:if test="${pageContext.request.isUserInRole('LIBRARIAN')}">
+
+    <div class="mt-3">
+                <a href="${pageContext.request.contextPath}/member-controller"
+                   class="btn btn-success">
+                    Manage Books
+                </a>
+            </div>
+    </c:if>
+
+
+
+            <a href="${pageContext.request.contextPath}/logout-controller" class="btn btn-outline-danger btn-sm px-3">
+                <i class="bi bi-box-arrow-right me-1"></i>
+                Logout
+            </a>
+
+        </div>
+
+
+    </nav>
+

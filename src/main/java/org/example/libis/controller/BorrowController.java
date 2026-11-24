@@ -24,6 +24,12 @@ public class BorrowController extends HttpServlet {
                           HttpServletResponse resp)
             throws ServletException, IOException {
 
+        if (!req.isUserInRole("MEMBER")) {
+            resp.sendError(HttpServletResponse.SC_FORBIDDEN,
+                    "Only members can borrow books.");
+            return;
+        }
+
         String username = req.getRemoteUser();
 
         Member member =

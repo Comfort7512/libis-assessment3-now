@@ -79,61 +79,7 @@
 <body>
 
 <!-- Navigation -->
-
-<nav class="navbar navbar-light bg-white shadow-sm">
-    <div class="container py-2">
-
-
-        <a class="navbar-brand fw-bold text-primary" href=
-                "${pageContext.request.contextPath}/book-controller">
-            📚 LIBIS
-        </a>
-
-        <div class="d-flex align-items-center">
-        <span class="welcome-text me-3">
-            Welcome,
-            <strong class="text-dark">
-                <c:out value="${sessionScope.username}"/>
-            </strong>
-        </span>
-        </div>
-
-
-        <div class="mt-3">
-            <a href="${pageContext.request.contextPath}/member-controller"
-               class="btn btn-success">
-                Manage Members
-            </a>
-        </div>
-
-
-<c:if test="${pageContext.request.isUserInRole('member')}">
-
-<a href="${pageContext.request.contextPath}/my-loans"
-           class="btn btn-primary">
-
-            My Loans
-
-        </a>
-</c:if>
-
-        <div class="mt-3">
-            <a href="${pageContext.request.contextPath}/member-controller"
-               class="btn btn-success">
-                Manage Books
-            </a>
-        </div>
-
-
-        <a href="${pageContext.request.contextPath}/logout-controller" class="btn btn-outline-danger btn-sm px-3">
-            <i class="bi bi-box-arrow-right me-1"></i>
-            Logout
-        </a>
-
-    </div>
-
-
-</nav>
+<%@ include file="/WEB-INF/fragments/header.jspf" %>
 
 <!-- Main content -->
 <c:if test="${not empty sessionScope.error}">
@@ -257,24 +203,25 @@
                                 <a href="${pageContext.request.contextPath}/book-controller?bookId=${requestScope.book.bookId}">View</a>
                             </span>
 
-                                <form
-                                        action="${pageContext.request.contextPath}/borrow-controller"
-                                        method="post"
-                                        style="display:inline;">
+                                <c:if test="${pageContext.request.isUserInRole('MEMBER')}">
 
-                                    <input
-                                            type="hidden"
-                                            name="bookId"
-                                            value="${book.bookId}">
+                                    <form
+                                            action="${pageContext.request.contextPath}/borrow-controller"
+                                            method="post"
+                                            style="display:inline;"
+                                            onsubmit="return confirm('Are you sure you want to borrow this book?');">
 
-                                    <button
-                                            type="submit"
-                                            class="btn btn-success btn-sm">
+                                        <input type="hidden"
+                                               name="bookId"
+                                               value="${book.bookId}">
 
-                                        Borrow
-                                    </button>
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            Borrow
+                                        </button>
 
-                                </form>
+                                    </form>
+
+                                </c:if>
 
                             <span class="badge bg-light text-secondary border ">
                             Reserve
@@ -309,24 +256,25 @@
                             </span>
 
 
-                                <form
-                                        action="${pageContext.request.contextPath}/borrow-controller"
-                                        method="post"
-                                        style="display:inline;">
+                                <c:if test="${pageContext.request.isUserInRole('MEMBER')}">
 
-                                    <input
-                                            type="hidden"
-                                            name="bookId"
-                                            value="${book.bookId}">
+                                    <form
+                                            action="${pageContext.request.contextPath}/borrow-controller"
+                                            method="post"
+                                            style="display:inline;"
+                                            onsubmit="return confirm('Are you sure you want to borrow this book?');">
 
-                                    <button
-                                            type="submit"
-                                            class="btn btn-success btn-sm">
+                                        <input type="hidden"
+                                               name="bookId"
+                                               value="${book.bookId}">
 
-                                        Borrow
-                                    </button>
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            Borrow
+                                        </button>
 
-                                </form>
+                                    </form>
+
+                                </c:if>
 
 
                                 <span class="badge bg-light text-secondary border ">
@@ -351,9 +299,8 @@
     </div>
 
     <!-- Footer note -->
-    <div class="text-center mt-4 text-muted small">
-        Library Information Management System
-    </div>
+    <%@ include file="/WEB-INF/fragments/footer.jspf" %>
+
 
 
 </div>

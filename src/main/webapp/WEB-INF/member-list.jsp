@@ -12,6 +12,8 @@
 
 <body class="bg-light">
 
+<%@ include file="/WEB-INF/fragments/header.jspf" %>
+
 <div class="container py-5">
 
   <div class="d-flex justify-content-between align-items-center mb-4">
@@ -116,9 +118,24 @@
 
               <td>
 
-                <button class="btn btn-sm btn-warning" disabled>
-                  Edit
-                </button>
+                <form action="${pageContext.request.contextPath}/member-controller"
+                      method="get"
+                      style="display:inline;">
+
+                  <input type="hidden"
+                         name="action"
+                         value="edit">
+
+                  <input type="hidden"
+                         name="memberId"
+                         value="${requestScope.member.member_id}">
+
+                  <button type="submit"
+                          class="btn btn-sm btn-warning">
+                    Edit
+                  </button>
+
+                </form>
 
                 <form action="${pageContext.request.contextPath}/member-controller"
                       method="post"
@@ -126,7 +143,7 @@
 
                   <input type="hidden"
                          name="memberId"
-                         value="${requestScope.member_id}">
+                         value="${requestScope.member.member_id}">
 
                   <input type="hidden"
                          name="action"
@@ -176,9 +193,24 @@
 
                 <td>
 
-                  <button class="btn btn-sm btn-warning" disabled>
-                    Edit
-                  </button>
+                  <form action="${pageContext.request.contextPath}/member-controller"
+                        method="get"
+                        style="display:inline;">
+
+                    <input type="hidden"
+                           name="action"
+                           value="edit">
+
+                    <input type="hidden"
+                           name="memberId"
+                           value="${member.member_id}">
+
+                    <button type="submit"
+                            class="btn btn-sm btn-warning">
+                      Edit
+                    </button>
+
+                  </form>
 
                   <form action="${pageContext.request.contextPath}/member-controller"
                         method="post"
@@ -220,7 +252,142 @@
 
 </div>
 
-<script src="${pageContext.request.contextPath}/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
+<c:if test="${not empty requestScope.member}">
 
+  <div id="editFormContainer"
+       class="card shadow-sm border-0 mt-4">
+
+    <div class="card-body">
+
+      <h3>Edit Member</h3>
+
+      <form method="post"
+            action="${pageContext.request.contextPath}/member-controller">
+
+        <input type="hidden"
+               name="action"
+               value="update">
+
+        <input type="hidden"
+               name="memberId"
+               value="${requestScope.member.member_id}">
+
+        <div class="mb-3">
+          <label class="form-label">Member Number</label>
+
+          <input type="text"
+                 class="form-control"
+                 name="memberNumber"
+                 value="${requestScope.member.member_number}"
+                 required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Name</label>
+
+          <input type="text"
+                 class="form-control"
+                 name="name"
+                 value="${requestScope.member.name}"
+                 required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Surname</label>
+
+          <input type="text"
+                 class="form-control"
+                 name="surname"
+                 value="${requestScope.member.surname}"
+                 required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+
+          <input type="email"
+                 class="form-control"
+                 name="email"
+                 value="${requestScope.member.email}"
+                 required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Username</label>
+
+          <input type="text"
+                 class="form-control"
+                 name="username"
+                 value="${requestScope.member.username}"
+                 required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+
+          <input type="text"
+                 class="form-control"
+                 name="password"
+                 value="${requestScope.member.password}"
+                 required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Role</label>
+
+          <select class="form-select" name="role">
+
+            <option value="ADMIN"
+              ${requestScope.member.role.toString() eq 'ADMIN' ? 'selected' : ''}>
+              ADMIN
+            </option>
+
+            <option value="LIBRARIAN"
+              ${requestScope.member.role.toString() eq 'LIBRARIAN' ? 'selected' : ''}>
+              LIBRARIAN
+            </option>
+
+            <option value="MEMBER"
+              ${requestScope.member.role.toString() eq 'MEMBER' ? 'selected' : ''}>
+              MEMBER
+            </option>
+
+          </select>
+        </div>
+
+        <button type="submit"
+                class="btn btn-success">
+          Save Changes
+        </button>
+
+        <a href="${pageContext.request.contextPath}/member-controller"
+           class="btn btn-secondary">
+          Cancel
+        </a>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</c:if>
+
+
+
+<%@ include file="/WEB-INF/fragments/footer.jspf" %>
+
+<script src="${pageContext.request.contextPath}/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function toggleEditForm() {
+    const form = document.getElementById("editFormContainer");
+
+    if (form.style.display === "none") {
+      form.style.display = "block";
+    } else {
+      form.style.display = "none";
+    }
+  }
+</script>
 </body>
 </html>

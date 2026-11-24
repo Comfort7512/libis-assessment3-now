@@ -20,7 +20,7 @@ public class BookDAOImpl implements BookDAO {
         List<Book> books = new ArrayList<>();
 
 
-        String  returnAllBooks = "select * from books";
+        String  returnAllBooks = "select * from book";
 
         try(Connection connection = DataBaseConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(returnAllBooks);
@@ -52,7 +52,7 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public Book searchByTitle(String title){
 
-        String  returnSearchedBook = "select * from books where title = ?";
+        String  returnSearchedBook = "select * from book where title = ?";
         Book book = null;
         try(Connection connection = DataBaseConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(returnSearchedBook);
@@ -86,7 +86,7 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public Book findById(int id){
 
-        String  searchById = "select * from books where book_id = ?";
+        String  searchById = "select * from book where book_id = ?";
         Book book = null;
         try(Connection connection = DataBaseConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(searchById);
@@ -122,7 +122,7 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public Book findByIsbn(String isbn){
 
-        String  searchById = "select * from books where isbn = ?";
+        String  searchById = "select * from book where isbn = ?";
         Book book = null;
         try(Connection connection = DataBaseConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(searchById);
@@ -160,7 +160,7 @@ public class BookDAOImpl implements BookDAO {
 
         int rowsAffected = -1;
 
-        String sql = "insert into books( isbn, title, author, published_year, genre, synopsis) values (?,?,?,?,?,?)";
+        String sql = "insert into book( isbn, title, author, published_year, genre, synopsis) values (?,?,?,?,?,?)";
         //String updateSQL = " UPDATE members SET member_number = ? WHERE member_id = ? ";
 
         try(Connection connection = DataBaseConnection.getConnection();
@@ -191,13 +191,33 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public int update(Book book) {
 
-    return -1;
+        int rowsAffected = -1;
 
+        String sql = "UPDATE book SET isbn = ?, title = ?, author = ?, published_year = ?, genre = ?, synopsis = ? WHERE book_id = ?";
+
+        try(Connection connection = DataBaseConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql))
+        {
+            preparedStatement.setString(1, book.getIsbn());
+            preparedStatement.setString(2, book.getTitle());
+            preparedStatement.setString(3, book.getAuthor());
+            preparedStatement.setDate(4, Date.valueOf(book.getPublishedYear()));
+            preparedStatement.setString(5, book.getGenre());
+            preparedStatement.setString(6, book.getSynopsis());
+            preparedStatement.setInt(7, book.getBookId());
+
+            rowsAffected = preparedStatement.executeUpdate();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return rowsAffected;
     }
 
     @Override
     public int delete(int id) {
-        String sql = "DELETE FROM books  WHERE book_id = ?";
+        String sql = "DELETE FROM book  WHERE book_id = ?";
 
         int rowsAffected;
 

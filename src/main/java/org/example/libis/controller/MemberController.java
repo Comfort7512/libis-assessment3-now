@@ -24,11 +24,30 @@ public class MemberController extends HttpServlet {
 
         String email = req.getRemoteUser();
         Member member1 = memberDAO.searchByEmail(email);
-        System.out.println("Member username \n"+member1.getUsername());
+        //System.out.println("Member username \n"+member1.getUsername());
 
         //boolean searchedPerformed = false;
         String searchType = req.getParameter("searchType");
         String keyword = req.getParameter("keyword");
+
+        String action = req.getParameter("action");
+
+        if ("edit".equalsIgnoreCase(action)) {
+
+            int memberId = Integer.parseInt(
+                    req.getParameter("memberId")
+            );
+
+             member = memberDAO.findById(memberId);
+
+            req.setAttribute("member", member);
+            req.setAttribute("searchPerformed", true);
+
+            req.getRequestDispatcher("/WEB-INF/member-list.jsp")
+                    .forward(req, resp);
+
+            return;
+        }
 
         if(searchType !=null && keyword!=null){
             switch (searchType){
@@ -86,6 +105,15 @@ public class MemberController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
+        String firstName = req.getParameter("firstName");
+        String lastName = req.getParameter("lastName");
+        String email = req.getParameter("email");
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        String rolePar = req.getParameter("role");
+        String memberNumber = req.getParameter("memberNumber");
+
+        Role role = rolePar != null ? Role.valueOf(rolePar.toUpperCase()) : null;
 
 
         if (action != null && action.equalsIgnoreCase("delete")) {
@@ -97,14 +125,42 @@ public class MemberController extends HttpServlet {
             return;
         }
 
-        String firstName = req.getParameter("firstName");
-        String lastName = req.getParameter("lastName");
-        String email = req.getParameter("email");
-        String username = req.getParameter("username");
-        String password = req.getParameter("password");
-        String rolePar = req.getParameter("role");
 
-        Role role = rolePar != null ? Role.valueOf(rolePar.toUpperCase()) : null;
+        if ("update".equalsIgnoreCase(action)) {
+
+            Member member = new Member();
+
+            member.setMember_id(
+                    Integer.parseInt(req.getParameter("memberId")));
+
+            member.setMember_number(
+                    req.getParameter("memberNumber"));
+
+            member.setName(
+                    req.getParameter("name"));
+
+            member.setSurname(
+                    req.getParameter("surname"));
+
+            member.setEmail(
+                    req.getParameter("email"));
+
+            member.setUsername(
+                    req.getParameter("username"));
+
+            member.setPassword(
+                    req.getParameter("password"));
+
+            member.setRole(
+                    Role.valueOf(req.getParameter("role")));
+
+            memberDAO.update(member);
+
+            resp.sendRedirect(
+                    req.getContextPath() + "/member-controller");
+
+            return;
+        }
 
         int checkFailedOrSuccess = memberDAO.create(new Member(
                 firstName,
@@ -125,7 +181,13 @@ public class MemberController extends HttpServlet {
             memberDAO.delete(id);
 
             resp.sendRedirect("/member-controller");
+            return;
         }
+
+
+
+
+
 
 
 
